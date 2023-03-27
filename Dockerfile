@@ -9,4 +9,4 @@ RUN yum install -y httpd \
  zip\
  unzip
 CMD ["/usr/sbin/httpd", "D", "FOREGROUND"]
-EXPOSE 80 22 
+EXPOSE 80 
