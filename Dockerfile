@@ -1,11 +1,21 @@
-FROM  centos:latest
-MAINTAINER vikashashoke@gmail.com
-RUN yum install -y httpd \
- zip\
- unzip
-ADD https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip /var/www/html/
-WORKDIR /var/www/html/
-RUN cp -rvf photogenic/* .
-RUN rm -rf photogenic photogenic.zip
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-EXPOSE 80 22
+# Base image
+FROM python:3.9-slim-buster
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the application files
+COPY . .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set the environment variables
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
+
+# Expose the port
+EXPOSE 5000
+
+# Start the application
+CMD ["flask", "run", "--host=0.0.0.0"]
